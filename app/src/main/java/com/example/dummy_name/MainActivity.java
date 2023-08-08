@@ -21,6 +21,17 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * some code I found that may help but can't test it yet because not set up
+     */
+//    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//mNotificationManager.setNotificationPolicy(
+//        new NotificationManager.Policy(NotificationManager.Policy.PRIORITY_CATEGORY_CALLS | NotificationManager.Policy.PRIORITY_CATEGORY_MESSAGES,
+//    NotificationManager.Policy.PRIORITY_SENDERS_CONTACTS,
+//    NotificationManager.Policy.PRIORITY_SENDERS_CONTACTS));
+//
+//mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
