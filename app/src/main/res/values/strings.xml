@@ -43,4 +43,9 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="banner_text">Enter the start and end times for the DND</string>
+    <string name="Start_text">Start time:</string>
+    <string name="hint_start">12:00</string>
+    <string name="end_text">End Time:</string>
+    <string name="hint_end">6:00</string>
 </resources>
