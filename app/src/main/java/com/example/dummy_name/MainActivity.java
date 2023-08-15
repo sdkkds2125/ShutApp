@@ -8,12 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
-import androidx.core.view.WindowCompat;
-
 import com.example.dummy_name.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TimePicker;
+
+import kotlin.Pair;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
 //
 //mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY);
     private ActivityMainBinding binding;
+    private TimePicker startTime;
+    private TimePicker endTime;
+
+    private Pair<Integer, Integer> startHourMinute,endHourMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +44,23 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
+        startTime = findViewById(R.id.start_time);
+        endTime = findViewById(R.id.end_time);
+
+        binding.fab.setOnClickListener(view -> FABClickAction(view));
+    }
+
+    private void FABClickAction(View view) {
+        Snackbar.make(view, "Added a new DND rule", Snackbar.LENGTH_LONG)
+                .setAnchorView(R.id.fab)
+                .setAction("Action", null).show();
+        startHourMinute = new Pair<>(startTime.getHour(), startTime.getMinute());
+        endHourMinute = new Pair<>(endTime.getHour(), endTime.getMinute());
+        newDNDRule(startHourMinute,endHourMinute);
+    }
+
+    private void newDNDRule(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
+
     }
 
     @Override
