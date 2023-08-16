@@ -1,44 +1,25 @@
 package com.example.dummy_name;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import com.google.android.material.snackbar.Snackbar;
-
-
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-
-import androidx.annotation.NonNull;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.provider.Settings;
 import android.view.View;
-
 import com.example.dummy_name.databinding.ActivityMainBinding;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import java.util.Arrays;
 import java.util.Calendar;
-
 import kotlin.Pair;
-import androidx.core.app.PermissionManager;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
 
-    String[] permissions = {Manifest.permission.SCHEDULE_EXACT_ALARM, Manifest.permission.SET_ALARM,Manifest.permission.ACCESS_NOTIFICATION_POLICY};
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
@@ -116,44 +96,6 @@ public class MainActivity extends AppCompatActivity {
         endHourMinute = new Pair<>(endTime.getHour(), endTime.getMinute());
         newDNDRule(startHourMinute,endHourMinute);
     }
-    // Function to check and request permission.
-    public void checkPermissions(String[] permissions) {
-        boolean temp = true;
-        for (String permission: permissions) {
-            if (ContextCompat.checkSelfPermission(MainActivity.this, permission) == PackageManager.PERMISSION_DENIED) {
-                    temp = false;
-            }
-
-            }
-                 if (temp) {
-                     ActivityCompat.requestPermissions(MainActivity.this, permissions, 5);
-                 }
-        }
-
-
-
-    // This function is called when the user accepts or decline the permission.
-    // Request Code is used to check which permission called this function.
-    // This request code is provided when the user is prompt for permission.
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        super.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-
-        if (requestCode == 5) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
-            }
-            else {
-                Toast.makeText(MainActivity.this, "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
-            }
-        }
-    }
 
 
     private void newDNDRule(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
@@ -161,10 +103,8 @@ public class MainActivity extends AppCompatActivity {
          notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 // Schedule DND from 10pm to 7am daily
-        if(!notificationManager.isNotificationPolicyAccessGranted()){
-            PermissionManager permissionManager = context.getSystemService(PermissionManager.class);
-            
-            ActivityCompat.requestPermissiona(Manifest.permission.ACCESS_NOTIFICATION_POLICY, null);
+        if(!notificationManager.isNotificationPolicyAccessGranted()) {
+            startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
         }
         notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
 
@@ -176,12 +116,12 @@ public class MainActivity extends AppCompatActivity {
 // Schedule starting at 10pm
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 // Schedule ending at 7am
-        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.HOUR_OF_DAY, 16);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
