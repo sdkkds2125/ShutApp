@@ -7,17 +7,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.provider.Settings;
 import android.view.View;
+
 import com.example.dummy_name.databinding.ActivityMainBinding;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TimePicker;
+
 import java.util.Calendar;
+
 import kotlin.Pair;
 
 
@@ -28,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
      */
 //    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 //
-//mNotificationManager.setNotificationPolicy(
+//mNotificationManager.setNotificationPolicy(,
 //        new NotificationManager.Policy(NotificationManager.Policy.PRIORITY_CATEGORY_CALLS | NotificationManager.Policy.PRIORITY_CATEGORY_MESSAGES,
 //    NotificationManager.Policy.PRIORITY_SENDERS_CONTACTS,
 //    NotificationManager.Policy.PRIORITY_SENDERS_CONTACTS));
@@ -42,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String END_TIME = "end_time";
 
-    private Pair<Integer, Integer> startHourMinute,endHourMinute;
+    private Pair<Integer, Integer> startHourMinute, endHourMinute;
 
     NotificationManager notificationManager;
 
@@ -88,41 +95,41 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void FABClickAction(View view) {
-        //checkPermissions(permissions);
         Snackbar.make(view, "Added a new DND rule", Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.fab)
                 .setAction("Action", null).show();
         startHourMinute = new Pair<>(startTime.getHour(), startTime.getMinute());
         endHourMinute = new Pair<>(endTime.getHour(), endTime.getMinute());
-        newDNDRule(startHourMinute,endHourMinute);
+        newDNDRule(startHourMinute, endHourMinute);
     }
 
 
     private void newDNDRule(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
         context = getApplicationContext();
-         notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 // Schedule DND from 10pm to 7am daily
-        if(!notificationManager.isNotificationPolicyAccessGranted()) {
-            startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+        if (!notificationManager.isNotificationPolicyAccessGranted()) {
+            askPermission();
         }
-        notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
-
         Intent intent = new Intent(context, MyBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 // Schedule starting at 10pm
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
 // Schedule ending at 7am
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    private void askPermission() {
+        startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
     }
 
     @Override
