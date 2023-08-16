@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -33,7 +34,31 @@ public class MainActivity extends AppCompatActivity {
     private TimePicker startTime;
     private TimePicker endTime;
 
+    private static final String START_TIME = "start_time";
+
+    private static final String END_TIME = "end_time";
+
     private Pair<Integer, Integer> startHourMinute,endHourMinute;
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(START_TIME, new Pair<>(startTime.getHour(), startTime.getMinute()));
+        outState.putSerializable(END_TIME, new Pair<>(endTime.getHour(), endTime.getMinute()));
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        startHourMinute = (Pair<Integer, Integer>) savedInstanceState.getSerializable(START_TIME);
+        endHourMinute = (Pair<Integer, Integer>) savedInstanceState.getSerializable(END_TIME);
+        assert startHourMinute != null;
+        assert endHourMinute != null;
+        startTime.setHour(startHourMinute.getFirst());
+        startTime.setMinute(startHourMinute.getSecond());
+        endTime.setHour(endHourMinute.getFirst());
+        endTime.setMinute(endHourMinute.getSecond());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
