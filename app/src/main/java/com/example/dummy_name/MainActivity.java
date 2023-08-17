@@ -121,7 +121,10 @@ public class MainActivity extends AppCompatActivity {
     private void setUpSnackbar() {
         mSnackBar = Snackbar.make(findViewById(R.id.fab),"Welcome! I am not null now", Snackbar.LENGTH_LONG);
     }
-
+    // I am writing a comment here.
+    // I am writing another comment here.
+    // I am writing a third comment here.
+    // Rhyming is easy when every sentence ends with "here".
     private void setIsNightMode() {
         mIsNightMode = (getApplicationContext().getResources().getConfiguration().uiMode &
                 Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;

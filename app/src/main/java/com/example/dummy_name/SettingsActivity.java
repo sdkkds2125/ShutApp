@@ -20,6 +20,14 @@ public class SettingsActivity extends AppCompatActivity {
         setupActionBar();
     }
 
+    private void attachFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.settings, new SettingsFragment())
+                    .commit();
+        }
+    }
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -38,14 +46,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    private void attachFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
-                    .commit();
-        }
-    }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
