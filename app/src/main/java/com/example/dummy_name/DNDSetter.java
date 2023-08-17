@@ -9,6 +9,11 @@ public class DNDSetter {
     private final Pair<Integer, Integer> startTime;
     private final Pair<Integer, Integer> endTime;
 
+    DNDSetter(){
+        this.endTime = new Pair<>(1,1);
+        startTime = new Pair<> (1,1);
+    };
+
     DNDSetter(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
