@@ -13,12 +13,17 @@
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="display_header">Display</string>
 
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
+
+    <!-- Night Mode Preferences -->
+    <string name="night_mode_key">Night Mode</string>
+    <string name="night_mode_title">Dark/Night Mode</string>
+    <string name="night_mode_off">Never use Night/Dark Mode</string>
+    <string name="night_mode_on">Use Night/Dark Mode (unless disabled in OS Settings)</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>

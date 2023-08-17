@@ -2,9 +2,12 @@ package com.example.dummy_name;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -12,15 +15,23 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        attachFragment(savedInstanceState);
+        setupActionBar();
+    }
+
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void attachFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
@@ -28,6 +39,18 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            setNightModePreferenceListener();
+        }
+
+        private void setNightModePreferenceListener() {
+            Preference nightModePreference = findPreference(getString(R.string.night_mode_key));
+            if (nightModePreference != null) {
+                nightModePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    Boolean newBooleanValue = (Boolean) newValue;
+                    Utils.setNightModeOnOrOff(newBooleanValue);
+                    return true;
+                });
+            }
         }
     }
 }
