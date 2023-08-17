@@ -13,8 +13,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // Disable DND
-        if (notificationManager.areNotificationsEnabled()) {
+        if (notificationManager.areNotificationsEnabled() || notificationManager.getCurrentInterruptionFilter() != NotificationManager.INTERRUPTION_FILTER_NONE) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 notificationManager.setNotificationPolicy(new NotificationManager.Policy(NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS,
                         NotificationManager.Policy.SUPPRESSED_EFFECT_PEEK |
@@ -22,6 +21,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                                 NotificationManager.Policy.SUPPRESSED_EFFECT_BADGE |
                                 NotificationManager.Policy.SUPPRESSED_EFFECT_AMBIENT,
                         0));
+                notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -37,6 +37,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         0,
                         NotificationManager.Policy.CONVERSATION_SENDERS_ANYONE)
                 );
+                notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
             }
         }
 
