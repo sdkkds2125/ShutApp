@@ -1,15 +1,21 @@
 package com.example.dummy_name;
 
+import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,9 +51,14 @@ public class MainActivity extends AppCompatActivity {
     private TimePicker startTime;
     private TimePicker endTime;
 
+    private Snackbar mSnackBar;
+
     private static final String START_TIME = "start_time";
 
     private static final String END_TIME = "end_time";
+
+    private boolean mIsNightMode;
+    private String mUSE_NIGHT_MODE_KEY;
 
     private Pair<Integer, Integer> startHourMinute, endHourMinute;
 
@@ -83,14 +94,21 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        setIsNightMode();
+
         setSupportActionBar(binding.toolbar);
 
         startTime = findViewById(R.id.start_time);
         endTime = findViewById(R.id.end_time);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            binding.fab.setOnClickListener(view -> FABClickAction(view));
+            binding.fab.setOnClickListener(this::FABClickAction);
         }
+    }
+
+    private void setIsNightMode() {
+        mIsNightMode = (getApplicationContext().getResources().getConfiguration().uiMode &
+                Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
@@ -148,10 +166,32 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            showSettings();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void showSettings() {
+        dismissSnackBarIfShown();
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        settingsLauncher.launch(intent);
+    }
+
+    private void dismissSnackBarIfShown() {
+        if (mSnackBar.isShown()) {
+            mSnackBar.dismiss();
+        }
+    }
+
+    ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> restoreOrSetFromPreferences_Settings());
+
+    private void restoreOrSetFromPreferences_Settings() {
+        SharedPreferences sp = getDefaultSharedPreferences(this);
+        mIsNightMode = sp.getBoolean(mUSE_NIGHT_MODE_KEY, true);
+
+    }
 }
