@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
 
+    public MainActivity(){}
     public MainActivity(Snackbar mSnackBar) {
         this.mSnackBar = mSnackBar;
     }
