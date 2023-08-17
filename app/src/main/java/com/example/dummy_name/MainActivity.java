@@ -59,14 +59,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String END_TIME = "end_time";
 
-    private boolean mIsNightMode;
-    private String mUSE_NIGHT_MODE_KEY;
+    public boolean mIsNightMode;
+    public String mUSE_NIGHT_MODE_KEY;
 
+    public String mUSE_DND_KEY;
+
+    public boolean mIsDNDOn;
     private Pair<Integer, Integer> startHourMinute, endHourMinute;
 
     NotificationManager notificationManager;
 
     Context context;
+
+    public MainActivity(Snackbar mSnackBar) {
+        this.mSnackBar = mSnackBar;
+    }
 
 
     @Override
@@ -204,6 +211,6 @@ public class MainActivity extends AppCompatActivity {
     private void restoreOrSetFromPreferences_Settings() {
         SharedPreferences sp = getDefaultSharedPreferences(this);
         mIsNightMode = sp.getBoolean(mUSE_NIGHT_MODE_KEY, true);
-
+        mIsDNDOn = sp.getBoolean(mUSE_DND_KEY, true);
     }
 }
