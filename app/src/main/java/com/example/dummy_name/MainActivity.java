@@ -2,6 +2,8 @@ package com.example.dummy_name;
 
 import static androidx.preference.PreferenceManager.getDefaultSharedPreferences;
 
+import static com.example.dummy_name.Utils.showInfoDialog;
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         setIsNightMode();
 
         setSupportActionBar(binding.toolbar);
+        setUpSnackbar();
 
         startTime = findViewById(R.id.start_time);
         endTime = findViewById(R.id.end_time);
@@ -106,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void setUpSnackbar() {
+        mSnackBar = Snackbar.make(findViewById(R.id.fab),"Welcome! I am not null now", Snackbar.LENGTH_LONG);
+    }
+
     private void setIsNightMode() {
         mIsNightMode = (getApplicationContext().getResources().getConfiguration().uiMode &
                 Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
@@ -113,9 +121,10 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     private void FABClickAction(View view) {
-        Snackbar.make(view, "Added a new DND rule", Snackbar.LENGTH_LONG)
+        mSnackBar = Snackbar.make(view, "Added a new DND rule", Snackbar.LENGTH_LONG)
                 .setAnchorView(R.id.fab)
-                .setAction("Action", null).show();
+                .setAction("Action", null);
+        mSnackBar.show();
         startHourMinute = new Pair<>(startTime.getHour(), startTime.getMinute());
         endHourMinute = new Pair<>(endTime.getHour(), endTime.getMinute());
         newDNDRule(startHourMinute, endHourMinute);
@@ -160,9 +169,20 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             showSettings();
             return true;
+        } else if (id == R.id.action_about) {
+            showAbout();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAbout() {
+        dismissSnackBarIfShown();
+        showInfoDialog(MainActivity.this, "About dummy-name",
+                "This app is meant to easily allow you to set times of " +
+                        "no distraction by turning on DND for a specified amount of time \n\n" +
+                        "made by Zevythegreat and sdkkds2125");
     }
 
     private void showSettings() {

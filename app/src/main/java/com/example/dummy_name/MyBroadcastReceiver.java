@@ -38,7 +38,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
                         0,
                         NotificationManager.Policy.CONVERSATION_SENDERS_ANYONE)
                 );
-                
+
                 notificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_ALL);
             }
         }

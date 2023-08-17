@@ -19,6 +19,7 @@ public class DNDSetter {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, startTime.getFirst());
         calendar.set(Calendar.MINUTE, startTime.getSecond());
+        calendar.set(Calendar.SECOND, 0);
         return calendar.getTimeInMillis();
     }
 
@@ -27,6 +28,7 @@ public class DNDSetter {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, endTime.getFirst());
         calendar.set(Calendar.MINUTE, endTime.getSecond());
+        calendar.set(Calendar.SECOND, 0);
         return calendar.getTimeInMillis();
     }
 
