@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
+
 
 import kotlin.Pair;
 
@@ -105,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void newDNDRule(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
+        DNDSetter myRule = new DNDSetter(startTime,endTime);
         context = getApplicationContext();
         notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-// Schedule DND from 10pm to 7am daily
         if (!notificationManager.isNotificationPolicyAccessGranted()) {
             askPermission();
         }
@@ -116,16 +116,8 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-// Schedule starting at 10pm
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-// Schedule ending at 7am
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, myRule.getStartAsMilliseconds(), pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, myRule.getEndAsMilliseconds(), pendingIntent);
     }
 
     private void askPermission() {
