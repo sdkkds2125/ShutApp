@@ -1,6 +1,6 @@
 package com.example.dummy_name;
 
-import android.app.AutomaticZenRule;
+
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +15,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (notificationManager.getCurrentInterruptionFilter() != NotificationManager.INTERRUPTION_FILTER_NONE) {
-//         if (mIsDNDOn)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 notificationManager.setNotificationPolicy(new NotificationManager.Policy(NotificationManager.Policy.PRIORITY_CATEGORY_ALARMS,
                         NotificationManager.Policy.SUPPRESSED_EFFECT_PEEK |

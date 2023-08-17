@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">dummy-name</string>
+    <string name="app_name">ShutApp</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="next">Next</string>

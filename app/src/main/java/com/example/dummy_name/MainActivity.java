@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void newDNDRule(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
-        DNDSetter myRule = new DNDSetter(startTime,endTime);
+        DNDSetterModel myRule = new DNDSetterModel(endTime,startTime);
         context = getApplicationContext();
         notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAbout() {
         dismissSnackBarIfShown();
-        showInfoDialog(MainActivity.this, "About dummy-name",
+        showInfoDialog(MainActivity.this, "About ShutApp",
                 "This app is meant to easily allow you to set times of " +
                         "no distraction by turning on DND for a specified amount of time \n\n" +
                         "made by Zevythegreat and sdkkds2125");

@@ -4,17 +4,17 @@ import java.util.Calendar;
 
 import kotlin.Pair;
 
-public class DNDSetter {
+public class DNDSetterModel {
 
     private final Pair<Integer, Integer> startTime;
     private final Pair<Integer, Integer> endTime;
 
-    DNDSetter(){
+    DNDSetterModel(){
         this.endTime = new Pair<>(1,1);
         this.startTime = new Pair<> (1,1);
     }
 
-    DNDSetter(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
+    DNDSetterModel(Pair<Integer, Integer> startTime, Pair<Integer, Integer> endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }
