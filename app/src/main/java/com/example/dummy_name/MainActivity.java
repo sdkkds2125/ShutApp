@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, myRule.getEndAsMilliseconds(), pendingIntent);
     }
 
+
     private void askPermission() {
         startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
     }
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void showAbout() {
         dismissSnackBarIfShown();
